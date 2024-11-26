@@ -6,7 +6,7 @@ const app: Application = express();
 //parsers
 app.use(express.json());
 app.use(cors());
-
+console.log(app);
 // application routes
 app.use('/api/v1/students', StudentRoutes);
 
