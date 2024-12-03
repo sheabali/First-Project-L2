@@ -1,9 +1,10 @@
 import config from '../../config';
 import { StudentModel } from '../student.model';
+import { Student } from '../student/student.interface';
 import { TUser } from './user.interface';
 import { User } from './user.model';
 
-const createUserIntoDB = async (password: string, studentData: TUser) => {
+const createUserIntoDB = async (password: string, studentData: Student) => {
   const userData: Partial<TUser> = {};
 
   // if password not given, use deafult password
