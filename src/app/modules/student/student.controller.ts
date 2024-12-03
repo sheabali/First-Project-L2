@@ -1,4 +1,6 @@
 import { NextFunction, Request, Response } from 'express';
+import { StatusCodes } from 'http-status-codes';
+import sendResponse from '../../utils/sendResponse';
 import { studentsServices } from './student.service';
 
 const getAllStudent = async (
@@ -9,9 +11,10 @@ const getAllStudent = async (
   try {
     const result = await studentsServices.getAllStudentFromDB();
 
-    res.status(200).json({
+    sendResponse(res, {
+      statusCode: StatusCodes.OK,
       success: true,
-      message: 'student are retivieved successfully',
+      message: 'student are retivieved successfully.',
       data: result,
     });
   } catch (err) {
@@ -28,9 +31,10 @@ const getSingleStudent = async (
     const { studentId } = req.params;
     const result = await studentsServices.getOneStudentFromDB(studentId);
 
-    res.status(200).json({
+    sendResponse(res, {
+      statusCode: StatusCodes.OK,
       success: true,
-      message: 'student retivieved successfully',
+      message: 'student retivieved successfully.',
       data: result,
     });
   } catch (err) {
