@@ -37,6 +37,12 @@ const localGuardianSchema = new Schema<LocalGuardian>({
 });
 
 const studentSchema = new Schema<Student>({
+  user: {
+    type: Schema.Types.ObjectId,
+    required: [true, 'User ID is required'],
+    unique: true,
+    ref: 'User',
+  },
   id: { type: String },
   name: userNameSchema,
   gender: ['male', 'female'],
@@ -63,7 +69,6 @@ const studentSchema = new Schema<Student>({
   guardian: guardianSchema,
   localGuardian: localGuardianSchema,
   profileImg: { type: String, required: true },
-  isActive: ['active', 'blocked'],
 });
 
 export const StudentModel = model<Student>('Student', studentSchema);
