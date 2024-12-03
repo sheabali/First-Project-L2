@@ -49,6 +49,12 @@ const studentSchema = new Schema<Student>({
   dateOfBirth: {
     type: String,
   },
+  password: {
+    type: String,
+    required: [true, 'password id required.'],
+    unique: true,
+    maxlength: [20, 'Password can not be more than 20 characters.'],
+  },
   email: {
     type: String,
     required: true,
