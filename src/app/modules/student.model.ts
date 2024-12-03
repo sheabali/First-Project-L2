@@ -45,16 +45,15 @@ const studentSchema = new Schema<Student>({
   },
   id: { type: String },
   name: userNameSchema,
-  gender: ['male', 'female'],
+  gender: {
+    type: String, // Specifies the field's data type
+    enum: ['male', 'female'], // Limits the value to these options
+    required: [true, 'Gender is required'], // Custom error message when missing
+  },
   dateOfBirth: {
     type: String,
   },
-  password: {
-    type: String,
-    required: [true, 'password id required.'],
-    unique: true,
-    maxlength: [20, 'Password can not be more than 20 characters.'],
-  },
+
   email: {
     type: String,
     required: true,

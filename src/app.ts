@@ -1,7 +1,10 @@
 import cors from 'cors';
 import express, { Application, Request, Response } from 'express';
+import globalErrorHandler from './app/middlewares/global.ErrorHandler';
+import notFound from './app/middlewares/notFound';
 import { StudentRoutes } from './app/modules/student/student.route';
 import { UserRoutes } from './app/modules/user/user.route';
+
 const app: Application = express();
 
 //parsers
@@ -16,6 +19,10 @@ app.get('/', (req: Request, res: Response) => {
   res.send('Hello World!');
 });
 
-console.log(process.cwd());
+// Error-handling middleware
+app.use(globalErrorHandler);
+
+// not found
+app.use(notFound);
 
 export default app;
