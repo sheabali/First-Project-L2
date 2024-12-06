@@ -5,11 +5,11 @@ import { UserControllers } from './user.controller';
 
 const route = express.Router();
 
-const { studentValidationSchema } = StudentValidations;
+const { createStudentValidationSchema } = StudentValidations;
 
 route.post(
   '/create-student',
-  validateRequest(studentValidationSchema),
+  validateRequest(createStudentValidationSchema),
   UserControllers.createStudent,
 );
 

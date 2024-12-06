@@ -43,13 +43,14 @@ const studentSchema = new Schema<Student>({
     unique: true,
     ref: 'User',
   },
-  id: { type: String },
+
   name: userNameSchema,
   gender: {
     type: String, // Specifies the field's data type
     enum: ['male', 'female'], // Limits the value to these options
     required: [true, 'Gender is required'], // Custom error message when missing
   },
+
   dateOfBirth: {
     type: String,
   },
