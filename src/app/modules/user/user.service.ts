@@ -1,6 +1,6 @@
 import config from '../../config';
-import { StudentModel } from '../student.model';
 import { Student } from '../student/student.interface';
+import { StudentModel } from '../student/student.model';
 import { TUser } from './user.interface';
 import { User } from './user.model';
 
