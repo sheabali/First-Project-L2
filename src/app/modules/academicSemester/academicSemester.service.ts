@@ -11,6 +11,30 @@ const createAcademicSemesterIntoDB = async (payload: TAcademicSemester) => {
   return result;
 };
 
+const getAllAcademicSemesterFromDB = async () => {
+  const result = await AcademicSemester.find();
+  return result;
+};
+
+const getSingleAcademicSemesterFromDB = async (_id: string) => {
+  const result = await AcademicSemester.findOne({ _id });
+  return result;
+};
+
+const updateAcademicSemesterFromDB = async (
+  academicSemesterId: string,
+  updateData: Partial<TAcademicSemester>,
+) => {
+  const updateAcademicSemester = await AcademicSemester.findByIdAndUpdate(
+    academicSemesterId,
+    { $set: updateData },
+    { new: true, runValidators: true },
+  );
+  return updateAcademicSemester;
+};
+
 export const AcademicSemesterService = {
   createAcademicSemesterIntoDB,
+  getAllAcademicSemesterFromDB,
+  getSingleAcademicSemesterFromDB,
 };
