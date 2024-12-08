@@ -73,6 +73,10 @@ const studentSchema = new Schema<Student>({
   presentAddress: { type: String, required: true },
   permanentAddress: { type: String, required: true },
   guardian: guardianSchema,
+  admissionSemester: {
+    type: Schema.Types.ObjectId,
+    ref: 'AcademicSemester',
+  },
   localGuardian: localGuardianSchema,
   profileImg: { type: String, required: true },
 });
