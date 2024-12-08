@@ -29,7 +29,7 @@ export type Student = {
   password: string;
   name: UserName;
   gender: 'male' | 'female';
-  dateOfBirth?: string;
+  dateOfBirth?: Date;
   contactNo: string;
   emergencyContactNo: string;
   bloodGroup?: 'A+' | 'A-' | 'B+' | 'B-' | 'AB+' | 'AB-' | 'O+' | 'O-';
