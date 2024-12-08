@@ -22,13 +22,21 @@ const getSingleAcademicSemesterFromDB = async (_id: string) => {
 };
 
 const updateAcademicSemesterFromDB = async (
-  academicSemesterId: string,
-  updateData: Partial<TAcademicSemester>,
+  id: string,
+  payload: Partial<TAcademicSemester>,
 ) => {
+  if (
+    payload.name &&
+    payload.code &&
+    academicSemesterNameCodeMapper[payload.name] !== payload.code
+  ) {
+    throw new Error('Invalid Semester Code');
+  }
+
   const updateAcademicSemester = await AcademicSemester.findByIdAndUpdate(
-    academicSemesterId,
-    { $set: updateData },
-    { new: true, runValidators: true },
+    { _id: id },
+    payload,
+    { new: true },
   );
   return updateAcademicSemester;
 };
