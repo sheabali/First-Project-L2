@@ -24,12 +24,12 @@ export type LocalGuardian = {
 };
 
 export type Student = {
-  user: Types.ObjectId;
   id: string;
+  user: Types.ObjectId;
   password: string;
   name: UserName;
   gender: 'male' | 'female';
-  dateOfBirth?: Date;
+  dateOfBirth?: string;
   contactNo: string;
   emergencyContactNo: string;
   bloodGroup?: 'A+' | 'A-' | 'B+' | 'B-' | 'AB+' | 'AB-' | 'O+' | 'O-';
