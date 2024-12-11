@@ -7,6 +7,7 @@ const createAcademicDepartment = catchAsync(async (req, res) => {
   const result = await AcademicDepartmentService.createAcademicDepartmentIntoDB(
     req.body,
   );
+  console.log(result);
   sendResponse(res, {
     statusCode: StatusCodes.OK,
     success: true,

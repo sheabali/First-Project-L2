@@ -19,12 +19,14 @@ router.post(
 router.get('/', AcademicDepartmentControllers.getAllAcademicDepartment);
 
 router.get(
-  '/:departmentId',
+  '/:academicDepartmentId',
   AcademicDepartmentControllers.getSingleAcademicDepartment,
 );
 
 router.patch(
-  '/:departmentId',
+  '/:academicDepartmentId',
   validateRequest(updateAcademicDepartmentValidationSchema),
   AcademicDepartmentControllers.updateAcademicDepartment,
 );
+
+export const AcademicDepartmentRoutes = router;
