@@ -38,6 +38,7 @@ export type Student = {
   guardian: Guardian;
   localGuardian: LocalGuardian;
   admissionSemester: Types.ObjectId;
+  academicDepartment: Types.ObjectId;
   profileImg?: string;
   email: string;
 };
