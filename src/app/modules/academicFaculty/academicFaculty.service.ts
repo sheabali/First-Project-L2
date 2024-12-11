@@ -13,6 +13,7 @@ const getAllAcademicFacultyFromDB = async () => {
 
 const getSingleAcademicFacultyFromDB = async (_id: string) => {
   const result = await AcademicFaculty.findOne({ _id });
+  console.log(result);
   return result;
 };
 
