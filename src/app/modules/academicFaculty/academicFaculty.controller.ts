@@ -7,7 +7,7 @@ const createAcademicFaculty = catchAsync(async (req, res) => {
   const result = await AcademicFacultyService.createAcademicFacultyIntoDB(
     req.body,
   );
-
+  console.log(result);
   sendResponse(res, {
     statusCode: StatusCodes.OK,
     success: true,
