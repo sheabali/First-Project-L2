@@ -32,7 +32,7 @@ const getSingleAcademicFaculty = catchAsync(async (req, res) => {
     await AcademicFacultyService.getSingleAcademicFacultyFromDB(
       academicFacultyId,
     );
-  //   console.log(academicFacultyId);
+
   sendResponse(res, {
     statusCode: StatusCodes.OK,
     success: true,
