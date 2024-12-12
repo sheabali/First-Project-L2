@@ -35,7 +35,35 @@ const getOneStudentFromDB = async (id: string) => {
 };
 
 const updateStudentFromDB = async (id: string, payload: Partial<Student>) => {
-  const result = await StudentModel.findOneAndUpdate({ id }, payload);
+  const { name, guardian, localGuardian, ...remaningStudentData } = payload;
+
+  const modifiedUpdateData: Record<string, unknown> = {
+    ...remaningStudentData,
+  };
+
+  if (name && Object.keys(name).length) {
+    for (const [key, value] of Object.entries(name)) {
+      modifiedUpdateData[`name.${key}`] = value;
+    }
+  }
+
+  if (guardian && Object.keys(guardian).length) {
+    for (const [key, value] of Object.entries(guardian)) {
+      modifiedUpdateData[`guardian.${key}`] = value;
+    }
+  }
+
+  if (localGuardian && Object.keys(localGuardian).length) {
+    for (const [key, value] of Object.entries(localGuardian)) {
+      modifiedUpdateData[`localGuardian.${key}`] = value;
+    }
+  }
+  console.log(modifiedUpdateData);
+
+  const result = await StudentModel.findOneAndUpdate(
+    { id },
+    modifiedUpdateData,
+  );
 
   return result;
 };
@@ -72,7 +100,7 @@ const deleteStudentFromDB = async (id: string) => {
     return deletedStudent;
   } catch (err) {
     await session.abortTransaction(), await session.endSession();
-    throw new AppError(StatusCodes.BAD_REQUEST, 'Failed to create student.');
+    throw new AppError(StatusCodes.BAD_REQUEST, 'Failed to delete student.');
   }
 };
 
