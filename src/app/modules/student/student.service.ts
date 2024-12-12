@@ -72,6 +72,7 @@ const deleteStudentFromDB = async (id: string) => {
     return deletedStudent;
   } catch (err) {
     await session.abortTransaction(), await session.endSession();
+    throw new AppError(StatusCodes.BAD_REQUEST, 'Failed to create student.');
   }
 };
 
