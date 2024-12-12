@@ -41,4 +41,5 @@ export type Student = {
   academicDepartment: Types.ObjectId;
   profileImg?: string;
   email: string;
+  isDeleted: boolean;
 };

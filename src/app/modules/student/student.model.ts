@@ -84,6 +84,32 @@ const studentSchema = new Schema<Student>({
   },
   localGuardian: localGuardianSchema,
   profileImg: { type: String, required: true },
+  isDeleted: {
+    type: Boolean,
+    default: false,
+  },
 });
+
+// studentSchema.pre('save', async function (next) {
+//   const isDepartmentExist = await AcademicDepartment.findOne({
+//     name: this.name,
+//   });
+
+//   if (isDepartmentExist) {
+//     throw new AppError(404, 'This department is already exist!');
+//   }
+//   next();
+// });
+
+// studentSchema.pre('findOneAndUpdate', async function (next) {
+//   const query = this.getQuery();
+
+//   const isDepartmentExist = await AcademicDepartment.findOne(query);
+
+//   if (!isDepartmentExist) {
+//     throw new AppError(404, 'This department dose not exist!');
+//   }
+//   next();
+// });
 
 export const StudentModel = model<Student>('Student', studentSchema);
