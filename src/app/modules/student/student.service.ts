@@ -34,6 +34,12 @@ const getOneStudentFromDB = async (id: string) => {
   return result;
 };
 
+const updateStudentFromDB = async (id: string, payload: Partial<Student>) => {
+  const result = await StudentModel.findOneAndUpdate({ id }, payload);
+
+  return result;
+};
+
 const deleteStudentFromDB = async (id: string) => {
   console.log('deleted id', id);
   const session = await mongoose.startSession();
@@ -73,5 +79,6 @@ export const studentsServices = {
   createStudentIntoDB,
   getAllStudentFromDB,
   getOneStudentFromDB,
+  updateStudentFromDB,
   deleteStudentFromDB,
 };

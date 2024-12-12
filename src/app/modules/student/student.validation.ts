@@ -47,6 +47,55 @@ const createStudentValidationSchema = z.object({
   }),
 });
 
+const updateLocalGuardianValidationSchema = z.object({
+  name: z.string().optional(),
+  occupation: z.string().optional(),
+  contactNo: z.string().optional(),
+  address: z.string().optional(),
+});
+
+const updateGuardianValidationSchema = z.object({
+  fatherName: z.string().optional(),
+  fatherOccupation: z.string().optional(),
+  fatherContactNo: z.string().optional(),
+  motherName: z.string().optional(),
+  motherOccupation: z.string().optional(),
+  motherContactNo: z.string().optional(),
+});
+
+const updateUserNameValidationSchema = z.object({
+  firstName: z.string().optional(),
+  middleName: z.string().optional(),
+  lastName: z.string().optional(),
+});
+
+const updateStudentValidationSchema = z.object({
+  body: z.object({
+    student: z
+      .object({
+        name: updateUserNameValidationSchema.optional(),
+        gender: z.enum(['male', 'female']).optional(),
+        dateOfBirth: z.string().optional(),
+        email: z.string().email().optional(),
+        contactNo: z.string().optional(),
+        emergencyContactNo: z.string().optional(),
+        bloodGroup: z
+          .enum(['A+', 'A-', 'B+', 'B-', 'AB+', 'AB-', 'O+', 'O-'])
+          .optional(),
+        presentAddress: z.string().optional(),
+        permanentAddress: z.string().optional(),
+        guardian: updateGuardianValidationSchema.optional(),
+        admissionSemester: z.string().optional(),
+        academicDepartment: z.string().optional(),
+        localGuardian: updateLocalGuardianValidationSchema.optional(),
+        profileImg: z.string().optional(),
+        isDeleted: z.boolean().optional(),
+      })
+      .optional(),
+  }),
+});
+
 export const StudentValidations = {
   createStudentValidationSchema,
+  updateStudentValidationSchema,
 };
