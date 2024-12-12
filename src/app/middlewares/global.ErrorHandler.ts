@@ -1,3 +1,7 @@
+/* eslint-disable no-undef */
+/* eslint-disable no-unused-vars */
+/* eslint-disable @typescript-eslint/no-unused-vars */
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { NextFunction, Request, Response } from 'express';
 
 const globalErrorHandler = (
@@ -6,12 +10,13 @@ const globalErrorHandler = (
   res: Response,
   next: NextFunction,
 ) => {
-  const statusCode = err.status || 500; // Use a valid status code, default to 500
-  const message = err.message || 'Something went wrong'; // Properly handle message
+  const statusCode = err.statusCode || 500;
+  const message = err.message || 'Something went wrong!';
 
   return res.status(statusCode).json({
     success: false,
     message,
+    error: err,
   });
 };
 

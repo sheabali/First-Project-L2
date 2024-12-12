@@ -1,3 +1,4 @@
+import { StatusCodes } from 'http-status-codes';
 import { model, Schema } from 'mongoose';
 import AppError from '../../errors/AppError';
 import {
@@ -47,7 +48,7 @@ academicSemesterSchema.pre('save', async function (next) {
   });
 
   if (isSemesterExists) {
-    throw new AppError(404, 'Semester is already exists !');
+    throw new AppError(StatusCodes.NOT_FOUND, 'Semester is already exists !');
   }
   next();
 });
@@ -58,7 +59,7 @@ academicSemesterSchema.pre('findOneAndUpdate', async function (next) {
   const isSemesterExist = await AcademicSemester.findOne(query);
 
   if (!isSemesterExist) {
-    throw new AppError(404, 'This Semester dose not exist!');
+    throw new AppError(StatusCodes.NOT_FOUND, 'This Semester dose not exist!');
   }
   next();
 });
