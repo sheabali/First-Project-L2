@@ -59,11 +59,11 @@ const createUserIntoDB = async (password: string, payload: Student) => {
     await session.commitTransaction();
     await session.endSession();
     return newStudent;
-  } catch (err) {
+  } catch (err: any) {
     // Abort the transaction in case of an error
     await session.abortTransaction();
     await session.endSession();
-    throw new AppError(StatusCodes.BAD_REQUEST, 'Failed to create user.');
+    throw new AppError(StatusCodes.BAD_REQUEST, err);
   }
 };
 

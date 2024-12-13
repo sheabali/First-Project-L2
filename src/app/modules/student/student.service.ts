@@ -10,8 +10,29 @@ const createStudentIntoDB = async (student: Student) => {
   return result;
 };
 
-const getAllStudentFromDB = async () => {
-  const result = await StudentModel.find()
+const getAllStudentFromDB = async (query: Record<string, unknown>) => {
+  console.log('base query', query);
+  const queryObj = { ...query };
+  let searchTerm = '';
+
+  if (query.searchTerm) {
+    searchTerm = query.searchTerm as string;
+  }
+
+  const searchQuery = StudentModel.find({
+    $or: ['email', 'name.firstName', 'presentAddress'].map((field) => ({
+      [field]: { $regex: searchTerm, $options: 'i' },
+    })),
+  });
+
+  // Filltering
+  const excludeFields = ['searchTerm'];
+
+  excludeFields.forEach((el) => delete queryObj[el]);
+
+  console.log(query, queryObj);
+  const result = await searchQuery
+    .find(queryObj)
     .populate('admissionSemester')
     .populate({
       path: 'academicDepartment',
@@ -19,6 +40,7 @@ const getAllStudentFromDB = async () => {
         path: 'academicFaculty',
       },
     });
+  // console.log(result);
   return result;
 };
 
