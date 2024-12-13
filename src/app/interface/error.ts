@@ -1,5 +1,2 @@
-export type TErrorSource = {
-  path: string | number;
-  message: string;
-};
-[];
+// Define TErrorSource correctly
+export type TErrorSource = { path: string | number; message: string }[];
