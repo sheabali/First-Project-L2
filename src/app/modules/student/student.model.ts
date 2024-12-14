@@ -90,6 +90,10 @@ const studentSchema = new Schema<Student>({
   },
 });
 
+studentSchema.virtual('fullName').get(function () {
+  return this?.name.firstName + this?.name.middleName + this?.name.lastName;
+});
+
 // studentSchema.pre('save', async function (next) {
 //   const isDepartmentExist = await AcademicDepartment.findOne({
 //     name: this.name,
