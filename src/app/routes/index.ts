@@ -3,6 +3,7 @@ import { AcademicDepartmentRoutes } from '../modules/academicDepartment/academic
 import { AcademicFacultyRoutes } from '../modules/academicFaculty/academicFaculty.routes';
 import { AcademicSemesterRoutes } from '../modules/academicSemester/academicSemester.route';
 import { AdminRoutes } from '../modules/Admin/admin.route';
+import { CourseRoutes } from '../modules/Course/course.route';
 import { FacultyRoutes } from '../modules/Faculty/faculty.route';
 import { StudentRoutes } from '../modules/student/student.route';
 import { UserRoutes } from '../modules/user/user.route';
