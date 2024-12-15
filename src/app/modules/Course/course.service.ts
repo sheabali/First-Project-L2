@@ -12,13 +12,18 @@ const createCourseIntoDB = async (payload: TCourse) => {
   return result;
 };
 
-const getAllCoursesFromDB = async (query: Record<string, undefined>) => {
-  const courseQuery = new QueryBuilder(Course.find(), query)
+const getAllCoursesFromDB = async (query: Record<string, unknown>) => {
+  const courseQuery = new QueryBuilder(
+    Course.find(),
+    // .populate('preRequisiteCourses.course'),
+    query,
+  )
     .search(CourseSearchableFields)
     .filter()
     .sort()
     .paginate()
     .fields();
+
   const result = await courseQuery.modelQuery;
   return result;
 };
