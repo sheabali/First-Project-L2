@@ -44,7 +44,7 @@ const updateCourse = catchAsync(async (req, res) => {
   sendResponse(res, {
     statusCode: StatusCodes.OK,
     success: true,
-    message: 'course is updated succesfully',
+    message: 'Course is updated succesfully',
     data: result,
   });
 });
