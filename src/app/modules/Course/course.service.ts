@@ -2,6 +2,8 @@ import mongoose from 'mongoose';
 import AppError from '../../errors/AppError';
 
 import { StatusCodes } from 'http-status-codes';
+import QueryBuilder from '../../builder/QueryBuilder';
+import { CourseSearchableFields } from './course.constant';
 import { TCourse, TCoursefaculty } from './course.interface';
 import { Course, CourseFaculty } from './course.model';
 
@@ -10,8 +12,14 @@ const createCourseIntoDB = async (payload: TCourse) => {
   return result;
 };
 
-const getAllCoursesFromDB = async () => {
-  const result = await Course.find();
+const getAllCoursesFromDB = async (query: Record<string, undefined>) => {
+  const courseQuery = new QueryBuilder(Course.find(), query)
+    .search(CourseSearchableFields)
+    .filter()
+    .sort()
+    .paginate()
+    .fields();
+  const result = await courseQuery.modelQuery;
   return result;
 };
 
