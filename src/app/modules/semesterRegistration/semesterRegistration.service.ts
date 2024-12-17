@@ -1,5 +1,9 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
+import { StatusCodes } from 'http-status-codes';
+import AppError from '../../errors/AppError';
+import { AcademicSemester } from '../academicSemester/academicSemester.model';
 import { TSemesterRegistration } from './semesterRegistration.interface';
+import { SemesterRegistration } from './semesterRegistration.model';
 
 const createSemesterRegistrationIntoDB = async (
   payload: TSemesterRegistration,
@@ -10,6 +14,28 @@ const createSemesterRegistrationIntoDB = async (
    * Step3: Check if the semester is already registered!
    * Step4: Create the semester registration
    */
+  const academicSemester = payload?.academicSemester;
+
+  const isSemesterRegistrationExists = await SemesterRegistration.findOne({
+    academicSemester,
+  });
+
+  if (isSemesterRegistrationExists) {
+    throw new AppError(StatusCodes.CONFLICT, 'This semester is already exist!');
+  }
+  const isAcademicSemesterExists =
+    await AcademicSemester.findById(academicSemester);
+
+  if (!isAcademicSemesterExists) {
+    throw new AppError(
+      StatusCodes.NOT_FOUND,
+      'This academic semester not found !',
+    );
+  }
+
+  const result = await SemesterRegistration.create(payload);
+
+  return result;
 };
 
 const getAllSemesterRegistrationsFromDB = async (
