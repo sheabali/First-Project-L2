@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { StatusCodes } from 'http-status-codes';
+import QueryBuilder from '../../builder/QueryBuilder';
 import AppError from '../../errors/AppError';
 import { AcademicSemester } from '../academicSemester/academicSemester.model';
 import { TSemesterRegistration } from './semesterRegistration.interface';
@@ -40,7 +41,19 @@ const createSemesterRegistrationIntoDB = async (
 
 const getAllSemesterRegistrationsFromDB = async (
   query: Record<string, unknown>,
-) => {};
+) => {
+  const semesterRegistrationQuery = new QueryBuilder(
+    SemesterRegistration.find().populate('academicSemester'),
+    query,
+  )
+    .filter()
+    .sort()
+    .paginate()
+    .fields();
+
+  const result = await semesterRegistrationQuery.modelQuery;
+  return result;
+};
 
 const getSingleSemesterRegistrationsFromDB = async (id: string) => {};
 const updateSemesterRegistrationIntoDB = async (
