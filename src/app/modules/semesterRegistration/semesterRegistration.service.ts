@@ -91,6 +91,15 @@ const updateSemesterRegistrationIntoDB = async (
    */
   // check if the requested registered semester is exists
   // check if the semester is already registered!;
+
+  const requesteSemester = await SemesterRegistration.findById(id);
+
+  if (requesteSemester?.status === 'ENDED') {
+    throw new AppError(
+      StatusCodes.BAD_REQUEST,
+      `This semester is already ${requesteSemester.status}`,
+    );
+  }
 };
 
 const deleteSemesterRegistrationFromDB = async (id: string) => {
