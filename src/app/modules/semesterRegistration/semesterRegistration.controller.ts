@@ -1,5 +1,6 @@
 import { Request, Response } from 'express';
-import httpStatus from 'http-status';
+
+import { StatusCodes } from 'http-status-codes';
 import catchAsync from '../../utils/catchAsync';
 import sendResponse from '../../utils/sendResponse';
 import { SemesterRegistrationService } from './semesterRegistration.service';
@@ -12,7 +13,7 @@ const createSemesterRegistration = catchAsync(
       );
 
     sendResponse(res, {
-      statusCode: httpStatus.OK,
+      statusCode: StatusCodes.OK,
       success: true,
       message: 'Semester Registration is created successfully!',
       data: result,
@@ -28,7 +29,7 @@ const getAllSemesterRegistrations = catchAsync(
       );
 
     sendResponse(res, {
-      statusCode: httpStatus.OK,
+      statusCode: StatusCodes.OK,
       success: true,
       message: 'Semester Registration is retrieved successfully !',
       data: result,
@@ -46,7 +47,7 @@ const getSingleSemesterRegistration = catchAsync(
       );
 
     sendResponse(res, {
-      statusCode: httpStatus.OK,
+      statusCode: StatusCodes.OK,
       success: true,
       message: 'Semester Registration is retrieved successfully',
       data: result,
@@ -64,7 +65,7 @@ const updateSemesterRegistration = catchAsync(
       );
 
     sendResponse(res, {
-      statusCode: httpStatus.OK,
+      statusCode: StatusCodes.OK,
       success: true,
       message: 'Semester Registration is updated successfully',
       data: result,
@@ -79,7 +80,7 @@ const deleteSemesterRegistration = catchAsync(
       await SemesterRegistrationService.deleteSemesterRegistrationFromDB(id);
 
     sendResponse(res, {
-      statusCode: httpStatus.OK,
+      statusCode: StatusCodes.OK,
       success: true,
       message: 'Semester Registration is updated successfully',
       data: result,
