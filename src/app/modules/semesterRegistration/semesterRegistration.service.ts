@@ -9,14 +9,9 @@ import { SemesterRegistration } from './semesterRegistration.model';
 const createSemesterRegistrationIntoDB = async (
   payload: TSemesterRegistration,
 ) => {
-  /**
-   * Step1: Check if there any registered semester that is already 'UPCOMING'|'ONGOING'
-   * Step2: Check if the semester is exist
-   * Step3: Check if the semester is already registered!
-   * Step4: Create the semester registration
-   */
   const academicSemester = payload?.academicSemester;
 
+  // Check if there any registered semester that is already 'UPCOMING'|'ONGOING'
   const isThereAnyUpcomingOrOngoingSemester =
     await SemesterRegistration.findOne({
       $or: [{ status: 'UPCOMING' }, { status: 'ONGOING' }],
@@ -29,14 +24,7 @@ const createSemesterRegistrationIntoDB = async (
     );
   }
 
-  //   check if the semester is already registered
-  const isSemesterRegistrationExists = await SemesterRegistration.findOne({
-    academicSemester,
-  });
-
-  if (isSemesterRegistrationExists) {
-    throw new AppError(StatusCodes.CONFLICT, 'This semester is already exist!');
-  }
+  //   Check if the semester is exist
   const isAcademicSemesterExists =
     await AcademicSemester.findById(academicSemester);
 
@@ -47,6 +35,16 @@ const createSemesterRegistrationIntoDB = async (
     );
   }
 
+  //   Check if the semester is already registered!
+  const isSemesterRegistrationExists = await SemesterRegistration.findOne({
+    academicSemester,
+  });
+
+  if (isSemesterRegistrationExists) {
+    throw new AppError(StatusCodes.CONFLICT, 'This semester is already exist!');
+  }
+
+  //   Create the semester registration
   const result = await SemesterRegistration.create(payload);
 
   return result;
@@ -92,7 +90,7 @@ const updateSemesterRegistrationIntoDB = async (
    */
   // check if the requested registered semester is exists
 
-  // check if the semester is already registered!;
+  // Check if the semester is exist
   const isSemesterRegistrationExists = await SemesterRegistration.findById(id);
 
   if (!isSemesterRegistrationExists) {
