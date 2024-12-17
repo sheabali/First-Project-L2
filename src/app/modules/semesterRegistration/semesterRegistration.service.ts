@@ -29,6 +29,7 @@ const createSemesterRegistrationIntoDB = async (
     );
   }
 
+  //   check if the semester is already registered
   const isSemesterRegistrationExists = await SemesterRegistration.findOne({
     academicSemester,
   });
@@ -90,14 +91,20 @@ const updateSemesterRegistrationIntoDB = async (
    *
    */
   // check if the requested registered semester is exists
+
   // check if the semester is already registered!;
+  const isSemesterRegistrationExists = await SemesterRegistration.findById(id);
 
-  const requesteSemester = await SemesterRegistration.findById(id);
+  if (!isSemesterRegistrationExists) {
+    throw new AppError(StatusCodes.NOT_FOUND, 'This semester is not found!');
+  }
 
-  if (requesteSemester?.status === 'ENDED') {
+  // Check if the requested registered semester is exists
+  const requesteSemesterStatus = isSemesterRegistrationExists.status;
+  if (requesteSemesterStatus === 'ENDED') {
     throw new AppError(
       StatusCodes.BAD_REQUEST,
-      `This semester is already ${requesteSemester.status}`,
+      `This semester is already ${requesteSemesterStatus}`,
     );
   }
 };
