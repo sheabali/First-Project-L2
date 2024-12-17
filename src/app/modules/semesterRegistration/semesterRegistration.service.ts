@@ -98,11 +98,11 @@ const updateSemesterRegistrationIntoDB = async (
   }
 
   // Check if the requested registered semester is exists
-  const requesteSemesterStatus = isSemesterRegistrationExists.status;
-  if (requesteSemesterStatus === 'ENDED') {
+  const curentSemesterStatus = isSemesterRegistrationExists?.status;
+  if (curentSemesterStatus === 'ENDED') {
     throw new AppError(
       StatusCodes.BAD_REQUEST,
-      `This semester is already ${requesteSemesterStatus}`,
+      `This semester is already ${curentSemesterStatus}`,
     );
   }
 };
