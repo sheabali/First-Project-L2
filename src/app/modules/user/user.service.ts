@@ -9,8 +9,8 @@ import { Faculty } from '../Faculty/faculty.model';
 import { AcademicDepartment } from '../academicDepartment/academicDepartment.model';
 
 import { StatusCodes } from 'http-status-codes';
-import { Student } from '../student/student.interface';
-import { StudentModel } from '../student/student.model';
+import { TStudent } from '../student/student.interface';
+import { Student } from '../student/student.model';
 import { AcademicSemester } from './../academicSemester/academicSemester.model';
 import { TUser } from './user.interface';
 import { User } from './user.model';
@@ -20,7 +20,7 @@ import {
   generateStudentId,
 } from './user.utils';
 
-const createStudentIntoDB = async (password: string, payload: Student) => {
+const createStudentIntoDB = async (password: string, payload: TStudent) => {
   // create a user object
   const userData: Partial<TUser> = {};
 
@@ -59,7 +59,7 @@ const createStudentIntoDB = async (password: string, payload: Student) => {
 
     // create a student (transaction-2)
 
-    const newStudent = await StudentModel.create([payload], { session });
+    const newStudent = await Student.create([payload], { session });
 
     if (!newStudent.length) {
       throw new AppError(StatusCodes.BAD_REQUEST, 'Failed to create student');
