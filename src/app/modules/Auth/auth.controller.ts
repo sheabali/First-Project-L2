@@ -3,22 +3,13 @@ import catchAsync from '../../utils/catchAsync';
 import sendResponse from '../../utils/sendResponse';
 
 const loginUser = catchAsync(async (req, res) => {
-  const result = await AuthServices.loginUser(req.body);
-  const { refreshToken, accessToken, needsPasswordChange } = result;
-
-  res.cookie('refreshToken', refreshToken, {
-    secure: config.NODE_ENV === 'production',
-    httpOnly: true,
-  });
+  const result = await req.body;
 
   sendResponse(res, {
     statusCode: StatusCodes.OK,
     success: true,
     message: 'User is logged in succesfully!',
-    data: {
-      accessToken,
-      needsPasswordChange,
-    },
+    data: result,
   });
 });
 
