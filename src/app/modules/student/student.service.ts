@@ -4,11 +4,11 @@ import QueryBuilder from '../../builder/QueryBuilder';
 import AppError from '../../errors/AppError';
 import { User } from '../user/user.model';
 import { studentSearchableFields } from './student.constant';
-import { TStudent } from './student.interface';
-import { Student } from './student.model';
+import { Student } from './student.interface';
+import { StudentModel } from './student.model';
 
-const createStudentIntoDB = async (student: TStudent) => {
-  const result = await Student.create(student);
+const createStudentIntoDB = async (student: Student) => {
+  const result = await StudentModel.create(student);
   return result;
 };
 
@@ -21,7 +21,7 @@ const getAllStudentFromDB = async (query: Record<string, unknown>) => {
   //   searchTerm = query.searchTerm as string;
   // }
 
-  // const searchQuery = Student.find({
+  // const searchQuery = StudentModel.find({
   //   $or: ['email', 'name.firstName', 'presentAddress'].map((field) => ({
   //     [field]: { $regex: searchTerm, $options: 'i' },
   //   })),
@@ -86,7 +86,7 @@ const getAllStudentFromDB = async (query: Record<string, unknown>) => {
   // return fieldQuery;
 
   const studentQuery = new QueryBuilder(
-    Student.find()
+    StudentModel.find()
       .populate('admissionSemester')
       .populate({
         path: 'academicDepartment',
@@ -107,7 +107,7 @@ const getAllStudentFromDB = async (query: Record<string, unknown>) => {
 };
 
 const getOneStudentFromDB = async (id: string) => {
-  const result = await Student.findById(id)
+  const result = await StudentModel.findById(id)
     .populate('admissionSemester')
     .populate({
       path: 'academicDepartment',
@@ -118,7 +118,7 @@ const getOneStudentFromDB = async (id: string) => {
   return result;
 };
 
-const updateStudentFromDB = async (id: string, payload: Partial<TStudent>) => {
+const updateStudentFromDB = async (id: string, payload: Partial<Student>) => {
   const { name, guardian, localGuardian, ...remaningStudentData } = payload;
 
   const modifiedUpdateData: Record<string, unknown> = {
@@ -144,7 +144,7 @@ const updateStudentFromDB = async (id: string, payload: Partial<TStudent>) => {
   }
   console.log(modifiedUpdateData);
 
-  const result = await Student.findByIdAndUpdate(id, modifiedUpdateData, {
+  const result = await StudentModel.findByIdAndUpdate(id, modifiedUpdateData, {
     new: true,
     runValidators: true,
   });
@@ -158,7 +158,7 @@ const deleteStudentFromDB = async (id: string) => {
 
   try {
     session.startTransaction();
-    const deletedStudent = await Student.findByIdAndUpdate(
+    const deletedStudent = await StudentModel.findByIdAndUpdate(
       id,
       { isDeleted: true },
       { new: true, session },

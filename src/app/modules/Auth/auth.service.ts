@@ -1,5 +1,6 @@
+import bcrypt from 'bcrypt';
 import { StatusCodes } from 'http-status-codes';
-import jwt from 'jsonwebtoken';
+import jwt, { JwtPayload } from 'jsonwebtoken';
 import config from '../../config';
 import AppError from '../../errors/AppError';
 import { User } from '../user/user.model';
@@ -49,12 +50,67 @@ const loginUser = async (payload: TLoginUser) => {
       data: jwtPayload,
     },
     config.jwt_access_secret as string,
-    { expiresIn: '4d' },
+    { expiresIn: '8d' },
   );
 
   return { accessToken, needPasswordChange: user?.needPasswordChange };
 };
 
+const changePassword = async (
+  userData: JwtPayload,
+  payload: { oldPassword: string; newPassword: string },
+) => {
+  console.log('user Data', userData.data.userId);
+  const user = await User.isUserExistsByCustomId(userData.data.userId);
+  console.log('p....', userData, '......', user.password, payload.oldPassword);
+
+  if (!user) {
+    throw new AppError(StatusCodes.NOT_FOUND, 'This user is not found !');
+  }
+  // checking if the user is already deleted
+
+  const isDeleted = user?.isDeleted;
+
+  if (isDeleted) {
+    throw new AppError(StatusCodes.FORBIDDEN, 'This user is deleted !');
+  }
+
+  // checking if the user is blocked
+  // Pi and Richard Parker
+
+  const userStatus = user?.status;
+
+  if (userStatus === 'blocked') {
+    throw new AppError(StatusCodes.FORBIDDEN, 'This user is blocked ! !');
+  }
+
+  // const isPasswordMatched =
+
+  if (!(await User.isPasswordMatched(payload.oldPassword, user?.password))) {
+    throw new AppError(StatusCodes.FORBIDDEN, 'Password do not matched!');
+  }
+
+  const newHashedPassword = await bcrypt.hash(
+    payload.newPassword,
+    Number(config.bcrypt_salt_rounds),
+  );
+
+  await User.findOneAndUpdate(
+    {
+      id: userData.data.userId,
+      role: userData.data.role,
+    },
+    {
+      password: newHashedPassword,
+      needPasswordChange: false,
+      passwordChangedAt: new Date(),
+    },
+  );
+
+  return null;
+};
+
 export const AuthServices = {
   loginUser,
+  changePassword,
 };
